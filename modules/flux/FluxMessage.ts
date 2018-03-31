@@ -1,7 +1,10 @@
 import {Message} from "../observable";
-import Dispatcher from "./Dispatcher";
-import Store from "./Store";
-import View from "./View";
+import FluxMessageHandler from "./FluxMessageHandler";
 export default abstract class FluxMessage extends Message {
-    public abstract handle(handler: Store|Dispatcher|View): any;
+    constructor(type: string, data: any) {
+        super(type, data);
+        // tslint:disable-next-line:no-console
+        console.log(this.Type);
+    }
+    public abstract handle(handler: FluxMessageHandler): any;
 }

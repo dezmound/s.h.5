@@ -1,29 +1,26 @@
 import {FluxError, FluxMessage} from ".";
-import {IObserver, Message, Observable} from "../observable";
 import Utils from "../utils";
 import Dispatcher from "./Dispatcher";
+import {FluxMessageDispatcherStoreChange} from "./FluxMessageDispatcherStoreChange";
+import FluxMessageHandler from "./FluxMessageHandler";
 import FluxMessageStoreViewUpdate from "./FluxMessageStoreViewUpdate";
-export default class Store extends Observable implements IObserver {
+import FluxMessageViewStoreGet from "./FluxMessageViewStoreGet";
+export default class Store extends FluxMessageHandler {
     public static get Instance(): Store {
         if (!this.instance) {
             this.instance = new this();
+            Dispatcher.Instance.subscribe(this.instance);
         }
         return this.instance;
     }
-    private static state: any;
+    private static state: any = {};
     private static instance: Store;
     private dispatcher: Dispatcher;
     public get State(): any {
         return Object.assign({}, Store.state);
     }
-    constructor() {
+    private constructor() {
         super();
-    }
-    public getNotification(message: Message): void {
-        if (!(message instanceof FluxMessage)) {
-            throw new FluxError(`Cannot handle message of this type: ${typeof message}`);
-        }
-        (message as FluxMessage).handle(this);
     }
     public registerInDispatcher(dispatcher: Dispatcher) {
         if (!this.dispatcher) {
@@ -32,10 +29,14 @@ export default class Store extends Observable implements IObserver {
         }
     }
     public get(schema: object) {
-        return Utils.intersection(Store.Instance.State, schema);
+        return Utils.intersection(schema, Store.Instance.State);
     }
     public update(schema: object) {
         Store.state = Object.assign(Store.state, schema);
         this.notify(new FluxMessageStoreViewUpdate(schema));
+    }
+    protected checkMessage(message: FluxMessage): boolean {
+        return message instanceof FluxMessageDispatcherStoreChange
+        || message instanceof FluxMessageViewStoreGet;
     }
 }

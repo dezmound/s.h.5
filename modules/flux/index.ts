@@ -7,6 +7,7 @@ export enum FluxMessageType {
     GET_VIEW_STORE = "getViewStore",
     CHANGE_DISPATCHER_STORE = "changeValueDispatcherStore",
     UPDATE_STORE_VIEW = "updateStoreView",
+    UPDATE_VIEW_DISPATCHER = "updateViewDispatcher",
 }
 export class FluxError extends Error {
     constructor(message?: string) {

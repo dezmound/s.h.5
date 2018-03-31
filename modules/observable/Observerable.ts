@@ -17,9 +17,9 @@ abstract class Observable implements IObservable {
             return subscriber !== observer;
         });
     }
-    public notify(message: Message) {
-        this.subscribers.forEach((subscriber) => {
-            subscriber.getNotification(message);
+    public notify(message: Message): any[] {
+        return this.subscribers.map((subscriber) => {
+            return subscriber.getNotification(message);
         });
     }
 }

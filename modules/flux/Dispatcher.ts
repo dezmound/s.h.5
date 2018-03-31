@@ -1,8 +1,19 @@
-import {IObserver, Message, Observable} from "../observable";
-import {FluxMessageDispatcherStoreChange} from "./FluxMessageDispatcherStoreChange";
+import {FluxMessage} from ".";
+import FluxMessageHandler from "./FluxMessageHandler";
+import FluxMessageViewDispatcherUpdate from "./FluxMessageViewDispatcherUpdate";
 
-export default class Dispatcher extends Observable implements IObserver {
-    public getNotification(message: Message): void {
-        this.notify(new FluxMessageDispatcherStoreChange(message.Data));
+export default class Dispatcher extends FluxMessageHandler {
+    private static instance: Dispatcher;
+    private constructor() {
+        super();
+    }
+    public static get Instance() {
+        if (!this.instance) {
+            this.instance = new Dispatcher();
+        }
+        return this.instance;
+    }
+    protected checkMessage(message: FluxMessage): boolean {
+        return message instanceof FluxMessageViewDispatcherUpdate;
     }
 }

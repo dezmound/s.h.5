@@ -1,4 +1,5 @@
 import {FluxMessageType} from ".";
+import Utils from "../utils";
 import FluxMessage from "./FluxMessage";
 import View from "./View";
 export default class FluxMessageStoreViewUpdate extends FluxMessage {
@@ -6,6 +7,9 @@ export default class FluxMessageStoreViewUpdate extends FluxMessage {
         super(FluxMessageType.UPDATE_STORE_VIEW, data);
     }
     public handle(view: View) {
-        view.render();
+        const dependencyPath = Utils.getObjectSchema(this.Data).pop();
+        if (view.Dependencies.includes(dependencyPath)) {
+            view.render();
+        }
     }
 }

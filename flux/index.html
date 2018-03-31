@@ -7,11 +7,12 @@
         <script type="text/javascript" src="sendToServer.js"></script>
     </head>
     <body>
-        <app>
-            <view view>
-                <span>Hello world! ${this}</span>
+        <template>
+            <button-component view>
+                <span>Hello world! ${this.get({a:"Placeholder"})}</span>
+                <button onclick="view(this).update({a: 1})">Push me</button>
             </view>
-        </app>
+        </template>
     </body>
 </html>
 
