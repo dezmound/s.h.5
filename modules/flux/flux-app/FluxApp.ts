@@ -1,8 +1,12 @@
 import {FluxError, View} from "../";
+import Logger from "../../utils/Logger";
 
 export default class App {
     private root: View;
     private rootElement: string;
+    public get Logger(): Logger {
+        return Logger.Instance;
+    }
     constructor(rootView: string = "app", entryPoint: string = "template") {
         this.root = new View(rootView, document.querySelector(entryPoint).innerHTML);
         this.rootElement = entryPoint;

@@ -4,7 +4,6 @@
         <meta charset="utf-8">
         <title>Архитектура. ШРИ-2018</title>
         <link rel="stylesheet" href="index.css">
-        <script type="text/javascript" src="sendToServer.js"></script>
     </head>
     <body>
         <template>
@@ -12,20 +11,28 @@
             <view-stub view>
                     <div class="view-stub">
                         <div class="view-stub__input-block">
-                            <input class="view-stub__input"/>
-                            <button class="view-stub__apply" onclick="view(this).update({logger: {log: ['some']}})">Отправить на сервер</button>
+                            <input class="view-stub__input" value="${ this.get({value: ''}) }$"/>
+                            <button class="view-stub__apply" onclick="
+                                view(this).update(
+                                    {
+                                        response: view(this).update({value: this.parentElement.children[0].value})
+                                    }
+                                )
+                            ">Отправить на сервер</button>
                         </div>
-                        <p class="view-stub__label"> Здесь появится ответ сервера</p>
+                        <p class="view-stub__label"> ${ JSON.stringify(this.get({response: "Здесь появится ответ сервера"})) }$</p>
                     </div>
+                </view-stub>
+                <view-logger view>
                     <div class="log">
                         ${ 
-                            this.get({logger: {log: []}})
+                            Logger.get()
                             .map((log) => {
                                 return `<div>${log}</div>`;
-                            })
+                            }).join("\n")
                         }$
                     </div>
-            </view-stub>
+                </view-logger>
         </template>
     </body>
 </html>

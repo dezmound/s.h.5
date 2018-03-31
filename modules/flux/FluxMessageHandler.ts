@@ -6,6 +6,7 @@ export default abstract class FluxMessageHandler extends Observable implements I
         if (this.checkMessage(message)) {
             return message.handle(this);
         }
+        return false;
     }
     protected abstract checkMessage(message: FluxMessage): boolean;
 }

@@ -7,7 +7,7 @@ export default class FluxMessageViewDispatcherUpdate extends FluxMessage {
     constructor(data: object) {
         super(FluxMessageType.UPDATE_VIEW_DISPATCHER, data);
     }
-    public handle(dispathcer: Dispatcher) {
-        dispathcer.notify(new FluxMessageDispatcherStoreChange(this.Data));
+    public handle(dispathcer: Dispatcher): any {
+        return dispathcer.notify(new FluxMessageDispatcherStoreChange(this.Data));
     }
 }

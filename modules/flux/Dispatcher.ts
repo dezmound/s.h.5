@@ -3,8 +3,8 @@ import FluxMessageViewDispatcherUpdate from "./flux-messages/FluxMessageViewDisp
 import FluxMessageHandler from "./FluxMessageHandler";
 
 export default class Dispatcher extends FluxMessageHandler {
-    private static instance: Dispatcher;
-    private constructor() {
+    protected static instance: Dispatcher;
+    protected constructor() {
         super();
     }
     public static get Instance() {

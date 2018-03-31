@@ -1,10 +1,10 @@
 import {FluxError, FluxMessage} from ".";
 import Utils from "../utils";
-import Dispatcher from "./Dispatcher";
 import FluxMessageStoreViewUpdate from "./flux-messages/FluxMessageStoreViewUpdate";
 import FluxMessageViewDispatcherUpdate from "./flux-messages/FluxMessageViewDispatcherUpdate";
 import FluxMessageViewStoreGet from "./flux-messages/FluxMessageViewStoreGet";
 import FluxMessageHandler from "./FluxMessageHandler";
+import ServerStoreDispatcher from "./ServerStoreDispatcher";
 import Store from "./Store";
 
 export default class View extends FluxMessageHandler {
@@ -31,7 +31,7 @@ export default class View extends FluxMessageHandler {
         (this.dom as any).view = this;
         Store.Instance.subscribe(this);
         this.subscribe(Store.Instance);
-        this.subscribe(Dispatcher.Instance);
+        this.subscribe(ServerStoreDispatcher.Instance);
         this.template = template || document.querySelector(this.tag).innerHTML;
         this.innerViews = View.getInnerViews(this);
     }
@@ -58,7 +58,7 @@ export default class View extends FluxMessageHandler {
 
     }
     public update(schema: object): any {
-        this.notify(new FluxMessageViewDispatcherUpdate(schema));
+        return this.notify(new FluxMessageViewDispatcherUpdate(schema));
     }
     public render(): Element {
         this.innerViews.forEach((view) => {
@@ -84,9 +84,9 @@ export default class View extends FluxMessageHandler {
     private escapeTemplate() {
         Utils.contentsBetween(this.template, "${|}$")
         .forEach((code) => {
-            const element = document.createElement("div");
+            const element = document.createElement("textarea");
             element.innerHTML = code;
-            const escaped = element.innerText;
+            const escaped = element.value;
             // Тут возможен XSS, но для упрощения реализации пока используем простые шаблоны.
             // tslint:disable-next-line:no-eval
             this.template = this.template.replace(`\${${code}}$`, eval(escaped));
