@@ -8,13 +8,24 @@
     </head>
     <body>
         <template>
-            <button-component view>
-                <span>Hello world! ${this.get({a:"Placeholder"})}</span>
-                <button onclick="view(this).update({a: Math.random()})">Push me</button>
-            </button-component>
-            <button-component-text view>
-                <button onclick="view(this).update({a: 'text'})">Push me for text</button>
-            </button-component-text>
+            <h1>Архитектура приложения</h1>
+            <view-stub view>
+                    <div class="view-stub">
+                        <div class="view-stub__input-block">
+                            <input class="view-stub__input"/>
+                            <button class="view-stub__apply" onclick="view(this).update({logger: {log: ['some']}})">Отправить на сервер</button>
+                        </div>
+                        <p class="view-stub__label"> Здесь появится ответ сервера</p>
+                    </div>
+                    <div class="log">
+                        ${ 
+                            this.get({logger: {log: []}})
+                            .map((log) => {
+                                return `<div>${log}</div>`;
+                            })
+                        }$
+                    </div>
+            </view-stub>
         </template>
     </body>
 </html>

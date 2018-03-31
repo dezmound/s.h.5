@@ -20,7 +20,7 @@ export default class App {
     private monkeyPathing(): void {
         (window as any).view = (self: Element) => {
             let parentElement = self.parentElement;
-            while (parentElement.getAttribute("view") && parentElement) {
+            while (parentElement && (parentElement.getAttribute("view") === null)) {
                 parentElement = parentElement.parentElement;
             }
             if (!parentElement) {

@@ -81,10 +81,25 @@ export default class View extends FluxMessageHandler {
             this.notify(new FluxMessageViewDispatcherUpdate(dependency));
         }
     }
-    private renderTemplate(): Element {
-        if (this.innerViews.length === 0) {
+    private escapeTemplate() {
+        Utils.contentsBetween(this.template, "${|}$")
+        .forEach((code) => {
+            const element = document.createElement("div");
+            element.innerHTML = code;
+            const escaped = element.innerText;
+            // Тут возможен XSS, но для упрощения реализации пока используем простые шаблоны.
             // tslint:disable-next-line:no-eval
-            this.dom.innerHTML = eval("`" + this.template + "`");
+            this.template = this.template.replace(`\${${code}}$`, eval(escaped));
+        });
+    }
+    private renderTemplate(): Element {
+        // TODO Тут надо поменять логику рендера шаблона. Работает только в случае
+        // если родительское view имеет только вложенные view без прочего текста.
+        if (this.innerViews.length === 0) {
+            const unescapedTemplate = this.template;
+            this.escapeTemplate();
+            this.dom.innerHTML = this.template;
+            this.template = unescapedTemplate;
         }
         return this.dom;
     }

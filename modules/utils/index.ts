@@ -1,4 +1,18 @@
 export default class Utils {
+    public static contentsBetween(text: string, symbols: string): string[] {
+        let data = text;
+        const result: Set<string> = new Set();
+        const [left, right] = symbols.split("|");
+        let beginIndex = data.indexOf(left);
+        let endIndex = data.indexOf(right);
+        while (beginIndex >= 0 && endIndex >= 0) {
+            result.add(data.substr(beginIndex + left.length, endIndex - beginIndex - left.length));
+            data = data.substr(endIndex + right.length);
+            beginIndex = data.indexOf(left);
+            endIndex = data.indexOf(right);
+        }
+        return Array.from(result);
+    }
     public static sameObjects(a: any, b: any): boolean {
         let result = true;
         const [aEntries, bEntries] = [Object.entries(a), Object.entries(b)];
@@ -56,8 +70,11 @@ export default class Utils {
     public static getObjectSchema(obj: any, delimiter: string = "."): string[] {
         return Object.keys(obj)
                     .map<string>((key) => {
-                        if (obj[key] instanceof Object) {
-                            return [key, ...Utils.getObjectSchema(obj)].join(delimiter);
+                        if (
+                            obj[key] instanceof Object
+                            && !(obj[key] instanceof Array)
+                        ) {
+                            return [key, ...Utils.getObjectSchema(obj[key])].join(delimiter);
                         }
                         return key;
                     });
