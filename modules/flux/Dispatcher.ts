@@ -1,6 +1,6 @@
 import {FluxMessage} from ".";
+import FluxMessageViewDispatcherUpdate from "./flux-messages/FluxMessageViewDispatcherUpdate";
 import FluxMessageHandler from "./FluxMessageHandler";
-import FluxMessageViewDispatcherUpdate from "./FluxMessageViewDispatcherUpdate";
 
 export default class Dispatcher extends FluxMessageHandler {
     private static instance: Dispatcher;

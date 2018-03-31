@@ -1,5 +1,5 @@
-import {Message} from "../observable";
-import FluxMessageHandler from "./FluxMessageHandler";
+import {Message} from "../../observable";
+import FluxMessageHandler from "../FluxMessageHandler";
 export default abstract class FluxMessage extends Message {
     constructor(type: string, data: any) {
         super(type, data);

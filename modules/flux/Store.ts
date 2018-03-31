@@ -1,10 +1,10 @@
 import {FluxError, FluxMessage} from ".";
 import Utils from "../utils";
 import Dispatcher from "./Dispatcher";
-import {FluxMessageDispatcherStoreChange} from "./FluxMessageDispatcherStoreChange";
+import {FluxMessageDispatcherStoreChange} from "./flux-messages/FluxMessageDispatcherStoreChange";
+import FluxMessageStoreViewUpdate from "./flux-messages/FluxMessageStoreViewUpdate";
+import FluxMessageViewStoreGet from "./flux-messages/FluxMessageViewStoreGet";
 import FluxMessageHandler from "./FluxMessageHandler";
-import FluxMessageStoreViewUpdate from "./FluxMessageStoreViewUpdate";
-import FluxMessageViewStoreGet from "./FluxMessageViewStoreGet";
 export default class Store extends FluxMessageHandler {
     public static get Instance(): Store {
         if (!this.instance) {

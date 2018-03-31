@@ -10,8 +10,11 @@
         <template>
             <button-component view>
                 <span>Hello world! ${this.get({a:"Placeholder"})}</span>
-                <button onclick="view(this).update({a: 1})">Push me</button>
-            </view>
+                <button onclick="view(this).update({a: Math.random()})">Push me</button>
+            </button-component>
+            <button-component-text view>
+                <button onclick="view(this).update({a: 'text'})">Push me for text</button>
+            </button-component-text>
         </template>
     </body>
 </html>

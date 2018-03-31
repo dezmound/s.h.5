@@ -1,7 +1,7 @@
 export {default as Store} from "./Store";
 export {default as View} from "./View";
 export {default as Dispatcher} from "./Dispatcher";
-export {default as FluxMessage} from "./FluxMessage";
+export {default as FluxMessage} from "./flux-messages/FluxMessage";
 
 export enum FluxMessageType {
     GET_VIEW_STORE = "getViewStore",

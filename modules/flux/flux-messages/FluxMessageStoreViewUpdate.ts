@@ -1,7 +1,7 @@
-import {FluxMessageType} from ".";
-import Utils from "../utils";
+import {FluxMessageType} from "../";
+import Utils from "../../utils";
+import View from "../View";
 import FluxMessage from "./FluxMessage";
-import View from "./View";
 export default class FluxMessageStoreViewUpdate extends FluxMessage {
     constructor(data: object) {
         super(FluxMessageType.UPDATE_STORE_VIEW, data);
